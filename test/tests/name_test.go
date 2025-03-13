@@ -1,4 +1,4 @@
-// tests/task_test.go
+// Package tests содержит тесты для API обработчиков задач
 package tests
 
 import (
@@ -12,12 +12,18 @@ import (
 	"testing"
 )
 
+// TestCreateTaskHandler проверяет создание новой задачи через POST /tasks
+//
+// Проверяет:
+// - Корректность создания задачи
+// - Правильность установки ID
+// - Соответствие полей созданной задачи
 func TestCreateTaskHandler(t *testing.T) {
 	// Инициализация хранилища и обработчиков
 	taskStorage := storage.NewInMemoryStorage()
 	mux := handlers.SetupHandlers(taskStorage)
 
-	// Эталонная задача
+	// Эталонная задача для тестирования
 	expectedTask := models.Task{
 		Title:       "Купить продукты",
 		Description: "Молоко, хлеб, овощи",
@@ -67,6 +73,12 @@ func TestCreateTaskHandler(t *testing.T) {
 	}
 }
 
+// TestGetAllTasksHandler проверяет получение списка всех задач через GET /tasks
+//
+// Проверяет:
+// - Корректность получения списка задач
+// - Соответствие количества задач
+// - Правильность данных возвращаемых задач
 func TestGetAllTasksHandler(t *testing.T) {
 	// Инициализация хранилища и обработчиков
 	taskStorage := storage.NewInMemoryStorage()
@@ -116,6 +128,11 @@ func TestGetAllTasksHandler(t *testing.T) {
 	}
 }
 
+// TestGetTaskHandler проверяет получение задачи по ID через GET /tasks/{id}
+//
+// Проверяет:
+// - Корректность получения задачи по ID
+// - Соответствие всех полей задачи
 func TestGetTaskHandler(t *testing.T) {
 	// Инициализация хранилища и обработчиков
 	taskStorage := storage.NewInMemoryStorage()
@@ -160,6 +177,11 @@ func TestGetTaskHandler(t *testing.T) {
 	}
 }
 
+// TestUpdateTaskHandler проверяет обновление задачи через PUT /tasks/{id}
+//
+// Проверяет:
+// - Корректность обновления всех полей задачи
+// - Соответствие обновленных данных
 func TestUpdateTaskHandler(t *testing.T) {
 	// Инициализация хранилища и обработчиков
 	taskStorage := storage.NewInMemoryStorage()
@@ -217,6 +239,11 @@ func TestUpdateTaskHandler(t *testing.T) {
 	}
 }
 
+// TestDeleteTaskHandler проверяет удаление задачи через DELETE /tasks/{id}
+//
+// Проверяет:
+// - Корректность удаления задачи
+// - Отсутствие задачи после удаления
 func TestDeleteTaskHandler(t *testing.T) {
 	// Инициализация хранилища и обработчиков
 	taskStorage := storage.NewInMemoryStorage()
@@ -249,7 +276,6 @@ func TestDeleteTaskHandler(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	w = httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
 
